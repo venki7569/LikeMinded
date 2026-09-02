@@ -7,7 +7,18 @@ import { cn } from '@/utils/cn';
  * every form in the app announces validation failures to screen readers.
  */
 export const FormField = forwardRef(function FormField(
-  { label, error, hint, type = 'text', leftIcon, className, id: providedId, ...rest },
+  {
+    label,
+    error,
+    hint,
+    type = 'text',
+    leftIcon,
+    className,
+    id: providedId,
+    multiline = false,
+    rows = 4,
+    ...rest
+  },
   ref
 ) {
   const generatedId = useId();
@@ -31,24 +42,43 @@ export const FormField = forwardRef(function FormField(
           </span>
         )}
 
-        <input
-          ref={ref}
-          id={id}
-          type={inputType}
-          aria-invalid={error ? 'true' : undefined}
-          aria-describedby={describedBy || undefined}
-          className={cn(
-            'h-11 w-full rounded-xl border bg-white px-3.5 text-sm text-slate-900 transition-colors',
-            'placeholder:text-slate-400',
-            'dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500',
-            leftIcon && 'pl-10',
-            isPassword && 'pr-11',
-            error
-              ? 'border-rose-400 focus:border-rose-500 dark:border-rose-500/60'
-              : 'border-slate-300 focus:border-brand-500 dark:border-slate-700'
-          )}
-          {...rest}
-        />
+        {multiline ? (
+          <textarea
+            ref={ref}
+            id={id}
+            rows={rows}
+            aria-invalid={error ? 'true' : undefined}
+            aria-describedby={describedBy || undefined}
+            className={cn(
+              'w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-slate-900 transition-colors',
+              'placeholder:text-slate-400',
+              'dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500',
+              error
+                ? 'border-rose-400 focus:border-rose-500 dark:border-rose-500/60'
+                : 'border-slate-300 focus:border-brand-500 dark:border-slate-700'
+            )}
+            {...rest}
+          />
+        ) : (
+          <input
+            ref={ref}
+            id={id}
+            type={inputType}
+            aria-invalid={error ? 'true' : undefined}
+            aria-describedby={describedBy || undefined}
+            className={cn(
+              'h-11 w-full rounded-xl border bg-white px-3.5 text-sm text-slate-900 transition-colors',
+              'placeholder:text-slate-400',
+              'dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500',
+              leftIcon && 'pl-10',
+              isPassword && 'pr-11',
+              error
+                ? 'border-rose-400 focus:border-rose-500 dark:border-rose-500/60'
+                : 'border-slate-300 focus:border-brand-500 dark:border-slate-700'
+            )}
+            {...rest}
+          />
+        )}
 
         {isPassword && (
           <button

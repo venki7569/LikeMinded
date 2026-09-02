@@ -32,6 +32,7 @@ erDiagram
         string bio
         string[] skills
         string[] interests
+        string profileVisibility
         object avatar
         object coverImage
         object socials
@@ -72,12 +73,13 @@ keeping it embedded avoids a join on the hot path.
 | `email`                  | String     | Required, unique, lowercase                        |
 | `password`               | String     | bcrypt hash, cost 12, `select: false`              |
 | `role`                   | Enum       | `user` \| `moderator` \| `admin`, default `user`   |
-| `avatar`, `coverImage`   | Subdoc     | `{ url, publicId }` for Cloudinary                 |
+| `profileVisibility`      | Enum       | `public` \| `private`, default `public`            |
+| `avatar`, `coverImage`   | Subdoc     | `{ url, publicId }` — `url` is a validated http(s) image URL today; `publicId` is reserved for Cloudinary |
 | `bio`                    | String     | ≤ 500 chars                                        |
-| `skills`, `interests`    | [String]   | Lowercased; the basis for matching                 |
-| `education`              | [Subdoc]   | School, degree, field, years                       |
-| `experience`             | [Subdoc]   | Company, title, dates, description                 |
-| `projects`               | [Subdoc]   | Title, description, url, technologies              |
+| `skills`, `interests`    | [String]   | Lowercased, unique, capped at 20                   |
+| `education`              | [Subdoc]   | School, degree, field, years (1800–2100)           |
+| `experience`             | [Subdoc]   | Company, title, dates, description; `isCurrent` clears `endDate` |
+| `projects`               | [Subdoc]   | Title, description, http(s) url, technologies      |
 | `socials`                | Subdoc     | `github`, `linkedin`, `website`                    |
 | `location`               | Subdoc     | `city`, `country`                                  |
 | `followers`, `following` | [ObjectId] | Self-references                                    |
@@ -96,9 +98,16 @@ keeping it embedded avoids a join on the hot path.
 | `{ role: 1 }`                        | Admin filtering                          |
 | `{ skills: 1 }`, `{ interests: 1 }`  | Multikey, used by matching and discovery |
 | `{ name, username, bio }` text       | Keyword search before semantic search    |
+| `{ occupation: 1 }`                  | Discovery by role                        |
+| `{ profileVisibility: 1, username: 1 }` | Public directory lookups              |
 
-`toJSON` deletes `password` and `__v`, so a document can never leak a hash through a
-response even if a controller forgets to project fields.
+Usernames in `RESERVED_USERNAMES` (`me`, `admin`, `settings`, …) are rejected at both
+registration and rename so they cannot collide with `/users/me/*` routes.
+
+The profile API never returns `password`. Public views also omit `email` and `role`.
+Owner views add `completeness` and `embeddingSource` (bio + skills + interests +
+occupation + education + experience + projects, joined) so the AI service can embed
+without re-deriving field lists.
 
 ## `tokens` — implemented
 

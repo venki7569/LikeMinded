@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '@/features/auth/authSlice';
 import themeReducer from '@/features/theme/themeSlice';
 import toastReducer from '@/features/ui/toastSlice';
+import profileReducer from '@/features/profile/profileSlice';
 
 export function createStore(preloadedState) {
   return configureStore({
@@ -9,6 +10,7 @@ export function createStore(preloadedState) {
       auth: authReducer,
       theme: themeReducer,
       toasts: toastReducer,
+      profile: profileReducer,
     },
     preloadedState,
     devTools: import.meta.env.MODE !== 'production',

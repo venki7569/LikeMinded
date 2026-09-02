@@ -13,7 +13,7 @@ API, UI, validation, error handling and tests — before the next one starts.
 | --- | ------------------- | -------------- |
 | 1   | Project setup       | Done           |
 | 2   | Authentication      | Done           |
-| 3   | User profiles       | Next           |
+| 3   | User profiles       | Done           |
 | 4   | Friend system       | Planned        |
 | 5   | Communities         | Planned        |
 | 6   | Posts / feed        | Planned        |
@@ -113,8 +113,8 @@ instead of sending them — copy the link from the console to complete those flo
 ## Tests
 
 ```
-server   57 passing   auth flows, token rotation, RBAC, validation, error mapping
-client   30 passing   Button, FormField, auth slice, LoginPage, route guards
+server   93 passing   auth + profiles (visibility, completeness, username checks)
+client   43 passing   components, auth, profile page, completeness bar, tags
 ```
 
 The API suite runs against `mongodb-memory-server` and a mocked mailer, so it needs no

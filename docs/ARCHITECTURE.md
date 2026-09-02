@@ -104,12 +104,34 @@ and refresh itself are excluded to avoid loops.
 On boot the app dispatches `restoreSession()`. Route guards render a loader while
 `isInitializing` is true, so a hard reload does not bounce a signed-in user to `/login`.
 
+## Profiles
+
+Profile data lives on the same `users` document as credentials so `/auth/me` and
+`/users/me/profile` cannot drift. Auth still stores `name` and `avatar`; the profile API
+exposes them as `displayName` and `profileImage` so the public contract matches the spec
+without a breaking rename.
+
+Image fields are `{ url, publicId }`. Today only a validated http(s) `url` is written and
+`publicId` stays empty. Cloudinary signed uploads can fill `publicId` later without
+changing response shape.
+
+Visibility is `public` or `private`. `GET /users/:username` is optionally authenticated:
+strangers see public profiles without an email address, and a private profile is 403 unless
+the caller is the owner (or an admin). Owners always go through `/users/me/*`.
+
+`scoreProfileCompleteness` weights the fields the matching engine will embed (bio, skills,
+interests, occupation, education, experience, projects) more heavily than photos. The
+owner payload also includes `embeddingSource`, a concatenated string ready for SBERT, but
+nothing is sent to the AI service yet.
+
+Client routes: `/u/:username` (view) and `/settings/profile` (eight-section editor).
+
 ## Testing strategy
 
 | Scope       | Tool                                    | What it proves                         |
 | ----------- | --------------------------------------- | -------------------------------------- |
 | API routes  | Vitest + Supertest + mongodb-memory-server | Real HTTP against a real database   |
-| API units   | Vitest                                  | Duration parsing, RBAC, password hooks |
+| API units   | Vitest                                  | Completeness scoring, sanitization, duration, RBAC |
 | Client units| Vitest + Testing Library                | Reducers and component behaviour       |
 
 The mailer is mocked in tests, which also lets the suite assert on the exact token that

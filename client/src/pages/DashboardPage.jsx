@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import {
   HiOutlineCheckBadge,
   HiOutlineDevicePhoneMobile,
   HiOutlineEnvelope,
+  HiOutlinePencilSquare,
 } from 'react-icons/hi2';
 import Alert from '@/components/atoms/Alert';
 import Button from '@/components/atoms/Button';
+import CompletenessBar from '@/components/molecules/CompletenessBar';
 import ChangePasswordCard from '@/features/auth/components/ChangePasswordCard';
 import authApi from '@/features/auth/authApi';
 import { selectCurrentUser, sessionExpired } from '@/features/auth/authSlice';
+import { fetchCompleteness, selectCompleteness } from '@/features/profile/profileSlice';
 import { pushToast } from '@/features/ui/toastSlice';
 import { toApiError } from '@/services/apiClient';
 
@@ -27,8 +30,13 @@ export function DashboardPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(selectCurrentUser);
+  const completeness = useSelector(selectCompleteness);
   const [isResending, setIsResending] = useState(false);
   const [isSigningOutAll, setIsSigningOutAll] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchCompleteness());
+  }, [dispatch]);
 
   const resendVerification = async () => {
     setIsResending(true);
@@ -65,14 +73,30 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <header className="space-y-1">
-        <h1 className="text-2xl font-extrabold tracking-tight">
-          Hello, {user?.name?.split(' ')[0] ?? 'there'}
-        </h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400">
-          Your account is ready. Profiles, matching and communities arrive in the next modules.
-        </p>
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-extrabold tracking-tight">
+            Hello, {user?.name?.split(' ')[0] ?? 'there'}
+          </h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            Finish your profile so matching has something real to work with.
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <Link to={user?.username ? `/u/${user.username}` : '/settings/profile'}>
+            <Button variant="secondary">View profile</Button>
+          </Link>
+          <Link to="/settings/profile">
+            <Button leftIcon={<HiOutlinePencilSquare className="h-5 w-5" />}>Edit profile</Button>
+          </Link>
+        </div>
       </header>
+
+      {completeness && (
+        <div className="card-surface p-6">
+          <CompletenessBar completeness={completeness} />
+        </div>
+      )}
 
       {user && !user.isEmailVerified && (
         <Alert tone="warning" title="Verify your email">

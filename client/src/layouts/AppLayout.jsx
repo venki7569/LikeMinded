@@ -8,6 +8,7 @@ import {
   HiOutlineUsers,
 } from 'react-icons/hi2';
 import Logo from '@/components/atoms/Logo';
+import Avatar from '@/components/atoms/Avatar';
 import Button from '@/components/atoms/Button';
 import ThemeToggle from '@/components/molecules/ThemeToggle';
 import { logoutUser, selectCurrentUser } from '@/features/auth/authSlice';
@@ -19,15 +20,6 @@ const NAV_ITEMS = [
   { to: '/people', label: 'People', icon: HiOutlineUsers },
   { to: '/communities', label: 'Communities', icon: HiOutlineUserGroup },
 ];
-
-function initialsOf(name = '') {
-  return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0].toUpperCase())
-    .join('');
-}
 
 export function AppLayout() {
   const dispatch = useDispatch();
@@ -80,12 +72,13 @@ export function AppLayout() {
 
             <ThemeToggle />
 
-            <span
-              aria-hidden="true"
-              className="bg-brand-600 grid h-10 w-10 place-items-center rounded-full text-sm font-bold text-white"
+            <Link
+              to={user?.username ? `/u/${user.username}` : '/settings/profile'}
+              aria-label="Your profile"
+              className="rounded-full"
             >
-              {initialsOf(user?.name)}
-            </span>
+              <Avatar name={user?.name} src={user?.avatar?.url} size="sm" className="ring-2" />
+            </Link>
 
             <Button
               variant="ghost"

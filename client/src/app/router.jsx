@@ -13,6 +13,8 @@ const ForgotPasswordPage = lazy(() => import('@/features/auth/pages/ForgotPasswo
 const ResetPasswordPage = lazy(() => import('@/features/auth/pages/ResetPasswordPage'));
 const VerifyEmailPage = lazy(() => import('@/features/auth/pages/VerifyEmailPage'));
 const DashboardPage = lazy(() => import('@/pages/DashboardPage'));
+const ProfilePage = lazy(() => import('@/features/profile/pages/ProfilePage'));
+const EditProfilePage = lazy(() => import('@/features/profile/pages/EditProfilePage'));
 
 function RouteFallback() {
   return (
@@ -54,7 +56,11 @@ export const router = createBrowserRouter([
     children: [
       {
         element: <AppLayout />,
-        children: [{ path: '/', element: withSuspense(<DashboardPage />) }],
+        children: [
+          { path: '/', element: withSuspense(<DashboardPage />) },
+          { path: '/u/:username', element: withSuspense(<ProfilePage />) },
+          { path: '/settings/profile', element: withSuspense(<EditProfilePage />) },
+        ],
       },
     ],
   },

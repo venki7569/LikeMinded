@@ -55,6 +55,7 @@ const definition = {
   tags: [
     { name: 'System', description: 'Health and diagnostics' },
     { name: 'Auth', description: 'Registration, sessions and password management' },
+    { name: 'Profiles', description: 'Public and owner-facing user profiles' },
   ],
 };
 
