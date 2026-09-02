@@ -1,0 +1,512 @@
+[
+  {
+    "name": "Virat Singh",
+    "email": "virat.singh@example.com",
+    "domain": "Cricket",
+    "role": "Batsman",
+    "interests": "batting techniques, fitness training, match strategy, T20 cricket",
+    "goals": "Become a professional cricketer and represent the national team in international T20 tournaments",
+    "bio": "Passionate opening batsman with 5 years of district-level experience. Love analyzing batting techniques of top players.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Jasprit Patel",
+    "email": "jasprit.patel@example.com",
+    "domain": "Cricket",
+    "role": "Bowler",
+    "interests": "fast bowling, swing techniques, fitness, cricket analytics",
+    "goals": "Master reverse swing bowling and play in the IPL as a pace bowler",
+    "bio": "Right-arm fast bowler with a knack for yorkers. Trains 4 hours daily and studies biomechanics of bowling.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Rohit Kumar",
+    "email": "rohit.kumar@example.com",
+    "domain": "Cricket",
+    "role": "All-rounder",
+    "interests": "batting, medium pace bowling, fielding, team leadership",
+    "goals": "Lead a college cricket team to nationals and develop coaching skills",
+    "bio": "Versatile all-rounder who can bat at any position and bowl medium pace. Captain of the university team.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Ananya Desai",
+    "email": "ananya.desai@example.com",
+    "domain": "Cricket",
+    "role": "Wicketkeeper",
+    "interests": "wicketkeeping, batting, cricket coaching, sports psychology",
+    "goals": "Become a certified cricket coach and promote women's cricket at grassroots level",
+    "bio": "Enthusiastic wicketkeeper-batter who has represented the state in women's cricket. Interested in sports management.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Suresh Reddy",
+    "email": "suresh.reddy@example.com",
+    "domain": "Cricket",
+    "role": "Cricket Analyst",
+    "interests": "cricket analytics, data visualization, match prediction, statistics",
+    "goals": "Build an AI-powered cricket analytics platform for team performance optimization",
+    "bio": "Data enthusiast who combines love for cricket with statistical analysis. Built match prediction models.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Priya Sharma",
+    "email": "priya.sharma@example.com",
+    "domain": "AI/ML",
+    "role": "Data Scientist",
+    "interests": "machine learning, deep learning, NLP, computer vision, TensorFlow",
+    "goals": "Build production-grade ML systems and contribute to open-source AI projects",
+    "bio": "Data scientist with 2 years of experience in building ML pipelines. Kaggle expert with multiple competition medals.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Arjun Mehta",
+    "email": "arjun.mehta@example.com",
+    "domain": "AI/ML",
+    "role": "ML Engineer",
+    "interests": "MLOps, model deployment, cloud computing, Docker, Kubernetes",
+    "goals": "Specialize in deploying and scaling ML models in production environments",
+    "bio": "ML engineer focused on the deployment side. Experienced with AWS SageMaker and MLflow for model serving.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Kavya Iyer",
+    "email": "kavya.iyer@example.com",
+    "domain": "AI/ML",
+    "role": "NLP Researcher",
+    "interests": "natural language processing, transformers, BERT, text mining, sentiment analysis",
+    "goals": "Publish research papers on multilingual NLP and build chatbots for Indian languages",
+    "bio": "NLP enthusiast researching transformer architectures for low-resource languages. Published 2 papers.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Rahul Joshi",
+    "email": "rahul.joshi@example.com",
+    "domain": "AI/ML",
+    "role": "Computer Vision Engineer",
+    "interests": "image recognition, object detection, YOLO, OpenCV, GANs",
+    "goals": "Develop a real-time object detection system for autonomous vehicles",
+    "bio": "CV engineer building detection models for self-driving car research. Expert in YOLO and segmentation.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Sneha Gupta",
+    "email": "sneha.gupta@example.com",
+    "domain": "AI/ML",
+    "role": "AI Ethics Researcher",
+    "interests": "AI fairness, bias detection, explainable AI, responsible AI, policy",
+    "goals": "Shape AI policy and ensure ethical deployment of AI systems in healthcare",
+    "bio": "Researcher focused on fairness in ML models. Working on bias mitigation in healthcare AI systems.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Deepak Verma",
+    "email": "deepak.verma@example.com",
+    "domain": "AI/ML",
+    "role": "Data Analyst",
+    "interests": "data analysis, Python, pandas, visualization, SQL, statistics",
+    "goals": "Transition from data analysis to machine learning engineering",
+    "bio": "Data analyst with strong statistical foundation. Currently learning deep learning frameworks.",
+    "skill_level": "beginner"
+  },
+  {
+    "name": "Meera Nair",
+    "email": "meera.nair@example.com",
+    "domain": "Music",
+    "role": "Vocalist",
+    "interests": "classical singing, raga music, vocal training, music theory, Bollywood playback",
+    "goals": "Release an independent album blending classical ragas with modern electronic music",
+    "bio": "Trained Carnatic vocalist exploring fusion genres. Has performed at over 30 college festivals.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Aditya Kapoor",
+    "email": "aditya.kapoor@example.com",
+    "domain": "Music",
+    "role": "Guitarist",
+    "interests": "acoustic guitar, blues, rock, fingerstyle, music composition",
+    "goals": "Start a band and perform original compositions at music festivals",
+    "bio": "Self-taught guitarist who plays blues, rock, and fingerstyle. Composes original instrumentals.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Riya Banerjee",
+    "email": "riya.banerjee@example.com",
+    "domain": "Music",
+    "role": "Music Producer",
+    "interests": "music production, FL Studio, mixing, mastering, electronic music, lo-fi",
+    "goals": "Build a home studio and produce beats for independent artists",
+    "bio": "Self-taught producer creating lo-fi hip-hop and electronic tracks. Active on SoundCloud.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Karan Malhotra",
+    "email": "karan.malhotra@example.com",
+    "domain": "Music",
+    "role": "Drummer",
+    "interests": "drumming, percussion, rhythm, jazz, live performance",
+    "goals": "Join a professional jazz band and study advanced percussion techniques",
+    "bio": "Drummer with 7 years of experience in jazz and fusion. Performs weekly at local venues.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Pooja Sinha",
+    "email": "pooja.sinha@example.com",
+    "domain": "Music",
+    "role": "Lyricist",
+    "interests": "songwriting, poetry, Hindi lyrics, storytelling, creative writing",
+    "goals": "Write lyrics for Bollywood films and collaborate with independent musicians",
+    "bio": "Poet turned lyricist. Has written songs for 5 indie albums. Believes in storytelling through music.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Amit Thakur",
+    "email": "amit.thakur@example.com",
+    "domain": "Fitness",
+    "role": "Personal Trainer",
+    "interests": "weight training, nutrition, bodybuilding, HIIT, client coaching",
+    "goals": "Open a fitness studio and create online workout programs for beginners",
+    "bio": "Certified personal trainer with 3 years of coaching experience. Specializes in strength training.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Nisha Chauhan",
+    "email": "nisha.chauhan@example.com",
+    "domain": "Fitness",
+    "role": "Yoga Instructor",
+    "interests": "yoga, meditation, flexibility, mindfulness, Ayurveda",
+    "goals": "Launch an online yoga platform and certify as an advanced Ashtanga instructor",
+    "bio": "Yoga practitioner and instructor for 5 years. Conducts daily online sessions for 50+ students.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Vikram Rawat",
+    "email": "vikram.rawat@example.com",
+    "domain": "Fitness",
+    "role": "Marathon Runner",
+    "interests": "running, marathon training, endurance, sports nutrition, trail running",
+    "goals": "Complete an ultramarathon and qualify for the Boston Marathon",
+    "bio": "Long-distance runner who has completed 10 full marathons. Currently training for an ultra.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Divya Menon",
+    "email": "divya.menon@example.com",
+    "domain": "Fitness",
+    "role": "Nutritionist",
+    "interests": "sports nutrition, meal planning, dietetics, supplements, health coaching",
+    "goals": "Create a nutrition app for athletes and publish a book on sports nutrition",
+    "bio": "Sports nutritionist helping athletes optimize performance through diet. MSc in Dietetics.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Rajesh Pandey",
+    "email": "rajesh.pandey@example.com",
+    "domain": "Fitness",
+    "role": "CrossFit Athlete",
+    "interests": "CrossFit, functional training, Olympic lifting, gymnastics, competition",
+    "goals": "Compete in CrossFit regionals and become a certified CrossFit L2 trainer",
+    "bio": "CrossFit athlete for 4 years. Competes in local competitions and trains at a box daily.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Tanvi Shah",
+    "email": "tanvi.shah@example.com",
+    "domain": "Startups",
+    "role": "Founder/CEO",
+    "interests": "entrepreneurship, product management, fundraising, startup strategy, lean methodology",
+    "goals": "Scale my EdTech startup to 100K users and raise Series A funding",
+    "bio": "First-time founder building an EdTech platform. Graduated from a startup accelerator program.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Nikhil Agarwal",
+    "email": "nikhil.agarwal@example.com",
+    "domain": "Startups",
+    "role": "Full-Stack Developer",
+    "interests": "React, Node.js, MongoDB, REST APIs, system design, DevOps",
+    "goals": "Build and launch a SaaS product and eventually start my own tech company",
+    "bio": "Full-stack developer passionate about building products. Has launched 3 side projects.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Simran Kaur",
+    "email": "simran.kaur@example.com",
+    "domain": "Startups",
+    "role": "UI/UX Designer",
+    "interests": "user experience, Figma, design systems, user research, prototyping",
+    "goals": "Lead design at a fast-growing startup and build a design community",
+    "bio": "UI/UX designer who loves crafting beautiful and usable products. Portfolio of 20+ projects.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Varun Saxena",
+    "email": "varun.saxena@example.com",
+    "domain": "Startups",
+    "role": "Marketing Strategist",
+    "interests": "digital marketing, SEO, content strategy, growth hacking, social media",
+    "goals": "Help startups achieve product-market fit through data-driven marketing strategies",
+    "bio": "Growth marketer with experience in 5 early-stage startups. Expert in SEO and content marketing.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Ishita Bhat",
+    "email": "ishita.bhat@example.com",
+    "domain": "Startups",
+    "role": "Product Manager",
+    "interests": "product strategy, agile, user stories, roadmap planning, analytics",
+    "goals": "Become a senior PM at a unicorn startup and mentor aspiring product managers",
+    "bio": "Product manager who bridges the gap between tech and business. Certified Scrum Master.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Manish Tiwari",
+    "email": "manish.tiwari@example.com",
+    "domain": "Photography",
+    "role": "Portrait Photographer",
+    "interests": "portrait photography, lighting, Lightroom, studio setup, client management",
+    "goals": "Open a professional photography studio and specialize in wedding and fashion photography",
+    "bio": "Portrait photographer with an eye for capturing emotions. Has shot over 100 client sessions.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Anjali Rao",
+    "email": "anjali.rao@example.com",
+    "domain": "Photography",
+    "role": "Wildlife Photographer",
+    "interests": "wildlife photography, nature, conservation, telephoto lenses, bird photography",
+    "goals": "Document endangered species and publish a photography book on Indian wildlife",
+    "bio": "Wildlife photographer who has spent 200+ hours in national parks. Published in wildlife magazines.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Siddharth Das",
+    "email": "siddharth.das@example.com",
+    "domain": "Photography",
+    "role": "Street Photographer",
+    "interests": "street photography, urban life, candid shots, black and white, photojournalism",
+    "goals": "Create a photo essay on urban life in Indian cities and exhibit at galleries",
+    "bio": "Street photographer documenting everyday life. Believes every street corner has a story.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Neha Kulkarni",
+    "email": "neha.kulkarni@example.com",
+    "domain": "Photography",
+    "role": "Photo Editor",
+    "interests": "photo editing, Photoshop, color grading, retouching, visual storytelling",
+    "goals": "Start a photo editing agency and teach advanced editing techniques through courses",
+    "bio": "Expert photo editor specializing in color grading and creative retouching. Teaches on YouTube.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Akash Bhatt",
+    "email": "akash.bhatt@example.com",
+    "domain": "Gaming",
+    "role": "Game Developer",
+    "interests": "Unity, C#, game design, 3D modeling, indie games, procedural generation",
+    "goals": "Release an indie game on Steam and build a game development studio",
+    "bio": "Indie game developer building a roguelike adventure game in Unity. Published 2 games on itch.io.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Sakshi Jain",
+    "email": "sakshi.jain@example.com",
+    "domain": "Gaming",
+    "role": "Game Artist",
+    "interests": "2D art, pixel art, character design, animation, Aseprite, game aesthetics",
+    "goals": "Create art for indie games and build a portfolio of game-ready character designs",
+    "bio": "Pixel artist and character designer. Has created assets for 10+ indie games. Active on DeviantArt.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Harsh Choudhary",
+    "email": "harsh.choudhary@example.com",
+    "domain": "Gaming",
+    "role": "Esports Player",
+    "interests": "competitive gaming, Valorant, team strategy, streaming, tournament play",
+    "goals": "Go pro in Valorant esports and represent India in international tournaments",
+    "bio": "Competitive Valorant player ranked in the top 500. Streams on Twitch with 5K followers.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Tanya Grover",
+    "email": "tanya.grover@example.com",
+    "domain": "Gaming",
+    "role": "Game Writer",
+    "interests": "narrative design, game writing, worldbuilding, dialogue, interactive fiction",
+    "goals": "Write the story for an AAA game and create a masterclass on game narrative design",
+    "bio": "Game writer passionate about interactive storytelling. Has written for 3 indie RPGs.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Ritika Saxena",
+    "email": "ritika.saxena@example.com",
+    "domain": "Gaming",
+    "role": "Sound Designer",
+    "interests": "game audio, sound effects, ambient sounds, FMOD, Wwise, music composition",
+    "goals": "Create immersive audio experiences for VR games and build a sound library",
+    "bio": "Sound designer crafting audio landscapes for games. Works with FMOD and custom recordings.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Chef Arjun Nair",
+    "email": "arjun.nair@example.com",
+    "domain": "Cooking",
+    "role": "Chef",
+    "interests": "Indian cuisine, fine dining, menu development, molecular gastronomy, spice blending",
+    "goals": "Open a modern Indian restaurant and win culinary awards for innovative dishes",
+    "bio": "Professional chef with 5 years of experience in fine dining. Specializes in South Indian fusion.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Megha Puri",
+    "email": "megha.puri@example.com",
+    "domain": "Cooking",
+    "role": "Baker",
+    "interests": "baking, pastries, bread making, cake decoration, sourdough, dessert innovation",
+    "goals": "Open an artisan bakery specializing in sourdough breads and French pastries",
+    "bio": "Home baker turned professional. Known for sourdough creations and custom wedding cakes.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Sanjay Mishra",
+    "email": "sanjay.mishra@example.com",
+    "domain": "Cooking",
+    "role": "Food Blogger",
+    "interests": "food photography, recipe writing, restaurant reviews, social media, YouTube cooking",
+    "goals": "Grow food blog to 500K followers and publish a recipe book",
+    "bio": "Food blogger with 100K Instagram followers. Reviews restaurants and creates recipe videos.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Lakshmi Venkat",
+    "email": "lakshmi.venkat@example.com",
+    "domain": "Cooking",
+    "role": "Nutritionist Chef",
+    "interests": "healthy cooking, meal prep, vegan recipes, superfoods, dietary planning",
+    "goals": "Create a meal delivery service focused on healthy and balanced meals for busy professionals",
+    "bio": "Chef with a nutrition background. Creates healthy meal plans that don't compromise on taste.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Omar Khan",
+    "email": "omar.khan@example.com",
+    "domain": "Cooking",
+    "role": "Street Food Expert",
+    "interests": "street food, regional cuisines, food trucks, affordable cooking, spice markets",
+    "goals": "Launch a street food franchise that brings authentic regional flavors to cities",
+    "bio": "Street food enthusiast who has sampled food from 50+ cities. Dreams of a food truck empire.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Ayesha Malik",
+    "email": "ayesha.malik@example.com",
+    "domain": "AI/ML",
+    "role": "Deep Learning Engineer",
+    "interests": "deep learning, PyTorch, neural networks, reinforcement learning, robotics",
+    "goals": "Build AI systems for robotic manipulation and contribute to AGI research",
+    "bio": "Deep learning engineer working on robot learning. Experienced with PyTorch and simulation environments.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Rohan Bose",
+    "email": "rohan.bose@example.com",
+    "domain": "Cricket",
+    "role": "Cricket Coach",
+    "interests": "coaching, player development, match tactics, youth cricket, talent scouting",
+    "goals": "Establish a cricket academy for underprivileged youth and develop future stars",
+    "bio": "Former state-level player turned coach. Runs a weekend cricket camp for 40+ students.",
+    "skill_level": "advanced"
+  },
+  {
+    "name": "Zara Ahmed",
+    "email": "zara.ahmed@example.com",
+    "domain": "Startups",
+    "role": "Venture Analyst",
+    "interests": "venture capital, startup evaluation, financial modeling, market research, due diligence",
+    "goals": "Join a top VC firm and help fund innovative startups in emerging markets",
+    "bio": "Finance grad interested in the startup ecosystem. Has evaluated 50+ startup pitches.",
+    "skill_level": "beginner"
+  },
+  {
+    "name": "Dev Malhotra",
+    "email": "dev.malhotra@example.com",
+    "domain": "Fitness",
+    "role": "Sports Physiotherapist",
+    "interests": "physiotherapy, injury rehabilitation, sports medicine, kinesiology, recovery",
+    "goals": "Work with professional sports teams and develop injury prevention programs",
+    "bio": "Sports physio specializing in athletic injury rehabilitation. Works with local football teams.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Ankit Sharma",
+    "email": "ankit.sharma@example.com",
+    "domain": "Photography",
+    "role": "Drone Photographer",
+    "interests": "aerial photography, drones, landscape, real estate photography, videography",
+    "goals": "Start a drone photography business for real estate and travel content",
+    "bio": "Licensed drone pilot capturing stunning aerial shots. Has covered 20+ real estate projects.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Pallavi Goswami",
+    "email": "pallavi.goswami@example.com",
+    "domain": "Music",
+    "role": "Music Therapist",
+    "interests": "music therapy, healing, mental health, sound therapy, meditation music",
+    "goals": "Integrate music therapy into hospitals and create healing soundscapes for anxiety relief",
+    "bio": "Certified music therapist using sound for healing. Works with mental health clinics.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Kunal Deshpande",
+    "email": "kunal.deshpande@example.com",
+    "domain": "Gaming",
+    "role": "QA Tester",
+    "interests": "game testing, bug tracking, automation testing, player experience, beta testing",
+    "goals": "Become a QA lead at a major game studio and improve game quality processes",
+    "bio": "Game QA specialist who has tested 15+ titles. Expert at finding edge-case bugs.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Shreya Kapoor",
+    "email": "shreya.kapoor@example.com",
+    "domain": "AI/ML",
+    "role": "Data Scientist",
+    "interests": "machine learning, recommendation systems, Python, scikit-learn, feature engineering",
+    "goals": "Build recommendation engines for e-commerce platforms and publish ML research",
+    "bio": "Data scientist specializing in recommendation systems. Built personalized shopping experiences.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Vishal Rana",
+    "email": "vishal.rana@example.com",
+    "domain": "Cricket",
+    "role": "Spin Bowler",
+    "interests": "spin bowling, leg spin, cricket coaching, match analysis, practice drills",
+    "goals": "Master the art of leg spin and play for a first-class cricket team",
+    "bio": "Leg spinner with sharp turn and flight variation. Studies Shane Warne's bowling techniques.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Fatima Sheikh",
+    "email": "fatima.sheikh@example.com",
+    "domain": "Startups",
+    "role": "Content Strategist",
+    "interests": "content marketing, storytelling, brand strategy, copywriting, audience engagement",
+    "goals": "Help startups build strong brand narratives and grow through content-led strategies",
+    "bio": "Content strategist who has helped 10+ startups define their voice. Expert in B2B content.",
+    "skill_level": "intermediate"
+  },
+  {
+    "name": "Gaurav Singhania",
+    "email": "gaurav.singhania@example.com",
+    "domain": "Fitness",
+    "role": "Calisthenics Coach",
+    "interests": "calisthenics, bodyweight training, street workout, flexibility, handstands",
+    "goals": "Build a calisthenics community and compete in international street workout competitions",
+    "bio": "Calisthenics athlete who trains in parks. Can do muscle-ups, handstands, and human flags.",
+    "skill_level": "advanced"
+  }
+]

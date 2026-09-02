@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LikeMinded+ — AI-Based User Matching and Automatic Community Generation System">
+  <title>LikeMinded+ | AI User Matching</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="navbar-brand"><span class="logo-icon">🧠</span> LikeMinded+</a>
+    <div class="navbar-links">
+      <a href="/" class="active">Dashboard</a>
+      <a href="/register">Register</a>
+      <a href="/matches">Matches</a>
+      <a href="/communities-page">Communities</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Find Your Tribe with AI</h1>
+    <p>Intelligent user matching and automatic community generation powered by NLP, TF-IDF, BERT embeddings, and clustering algorithms.</p>
+  </section>
+
+  <div class="container">
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value" id="stat-users">—</div>
+        <div class="stat-label">Registered Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🌐</div>
+        <div class="stat-value" id="stat-domains">—</div>
+        <div class="stat-label">Active Domains</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🤝</div>
+        <div class="stat-value" id="stat-communities">—</div>
+        <div class="stat-label">Communities</div>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      <a href="/register" class="card" id="card-register">
+        <div class="card-icon">✍️</div>
+        <h3>Register User</h3>
+        <p>Add your profile with interests, goals, and domain to join the matching system.</p>
+      </a>
+      <a href="/matches" class="card" id="card-matches">
+        <div class="card-icon">🔍</div>
+        <h3>Find Matches</h3>
+        <p>Discover similar users using TF-IDF or BERT cosine similarity with detailed explanations.</p>
+      </a>
+      <a href="/communities-page" class="card" id="card-communities">
+        <div class="card-icon">🏘️</div>
+        <h3>Explore Communities</h3>
+        <p>Auto-generated communities using DBSCAN, K-Means, or rule-based clustering.</p>
+      </a>
+    </div>
+
+    <div class="page-header" style="margin-top:48px">
+      <h1>How It Works</h1>
+      <p>The AI pipeline behind LikeMinded+</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <h3>1. NLP Preprocessing</h3>
+        <p>User profiles are cleaned, tokenized, stopwords removed, and lemmatized using NLTK.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>2. Vectorization</h3>
+        <p>Text is converted to vectors using TF-IDF (sparse) or BERT sentence embeddings (dense).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <h3>3. Cosine Similarity</h3>
+        <p>Pairwise similarity is computed to find users with the most similar profiles.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔬</div>
+        <h3>4. Clustering</h3>
+        <p>DBSCAN or K-Means groups users into communities with complementary roles.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const stats = await api('/api/stats');
+        document.getElementById('stat-users').textContent = stats.total_users || 0;
+        document.getElementById('stat-domains').textContent = stats.total_domains || 0;
+        const comm = await api('/api/communities?method=rule');
+        document.getElementById('stat-communities').textContent = comm.n_communities || 0;
+      } catch(e) {
+        console.error('Stats load error:', e);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | LikeMinded+</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="navbar-brand"><span class="logo-icon">🧠</span> LikeMinded+</a>
+    <div class="navbar-links">
+      <a href="/">Dashboard</a>
+      <a href="/register" class="active">Register</a>
+      <a href="/matches">Matches</a>
+      <a href="/communities-page">Communities</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Register New User</h1>
+      <p>Add your profile to the AI matching system</p>
+    </div>
+
+    <div class="form-container">
+      <form id="register-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="e.g. Priya Sharma" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="priya@example.com" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="domain">Domain</label>
+            <select id="domain" name="domain" required>
+              <option value="">Select domain...</option>
+              <option value="Cricket">Cricket</option>
+              <option value="AI/ML">AI/ML</option>
+              <option value="Music">Music</option>
+              <option value="Fitness">Fitness</option>
+              <option value="Startups">Startups</option>
+              <option value="Photography">Photography</option>
+              <option value="Gaming">Gaming</option>
+              <option value="Cooking">Cooking</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="role">Role</label>
+            <input type="text" id="role" name="role" placeholder="e.g. Data Scientist, Bowler" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="interests">Interests (comma-separated)</label>
+          <input type="text" id="interests" name="interests" placeholder="e.g. machine learning, NLP, deep learning" required>
+        </div>
+
+        <div class="form-group">
+          <label for="goals">Goals</label>
+          <textarea id="goals" name="goals" placeholder="Describe your goals..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea id="bio" name="bio" placeholder="Tell us about yourself..." rows="3"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="skill_level">Skill Level</label>
+            <select id="skill_level" name="skill_level">
+              <option value="beginner">Beginner</option>
+              <option value="intermediate" selected>Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+          <div class="form-group" style="display:flex;align-items:flex-end">
+            <button type="submit" class="btn btn-primary" id="submit-btn" style="width:100%">
+              🚀 Register User
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div id="success-message" style="display:none;text-align:center;padding:40px">
+        <div style="font-size:3rem;margin-bottom:16px">✅</div>
+        <h3>User Registered Successfully!</h3>
+        <p style="color:var(--text-secondary);margin:12px 0">Your profile has been added to the matching system.</p>
+        <div style="display:flex;gap:12px;justify-content:center;margin-top:20px">
+          <a href="/matches" class="btn btn-primary">Find Matches</a>
+          <button class="btn btn-secondary" onclick="resetForm()">Register Another</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/register.js"></script>
+</body>
+</html>

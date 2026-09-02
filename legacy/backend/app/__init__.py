@@ -1,0 +1,1 @@
+# LikeMinded+ Backend Application
