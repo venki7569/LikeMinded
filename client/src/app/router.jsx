@@ -18,6 +18,13 @@ const EditProfilePage = lazy(() => import('@/features/profile/pages/EditProfileP
 const PeoplePage = lazy(() => import('@/features/connections/pages/PeoplePage'));
 const RequestsPage = lazy(() => import('@/features/connections/pages/RequestsPage'));
 const ConnectionsPage = lazy(() => import('@/features/connections/pages/ConnectionsPage'));
+const CommunitiesPage = lazy(() => import('@/features/communities/pages/CommunitiesPage'));
+const CreateCommunityPage = lazy(() => import('@/features/communities/pages/CreateCommunityPage'));
+const CommunityDetailPage = lazy(() => import('@/features/communities/pages/CommunityDetailPage'));
+const MembersPage = lazy(() => import('@/features/communities/pages/MembersPage'));
+const CommunitySettingsPage = lazy(() => import('@/features/communities/pages/CommunitySettingsPage'));
+const JoinRequestsPage = lazy(() => import('@/features/communities/pages/JoinRequestsPage'));
+const InvitationsPage = lazy(() => import('@/features/communities/pages/InvitationsPage'));
 
 function RouteFallback() {
   return (
@@ -54,6 +61,14 @@ export const router = createBrowserRouter([
     children: [{ path: '/verify-email', element: withSuspense(<VerifyEmailPage />) }],
   },
   {
+    element: <AppLayout />,
+    errorElement: <RouteErrorPage />,
+    children: [
+      { path: '/communities', element: withSuspense(<CommunitiesPage />) },
+      { path: '/communities/:slug', element: withSuspense(<CommunityDetailPage />) },
+    ],
+  },
+  {
     element: <ProtectedRoute />,
     errorElement: <RouteErrorPage />,
     children: [
@@ -66,6 +81,11 @@ export const router = createBrowserRouter([
           { path: '/connections', element: withSuspense(<ConnectionsPage />) },
           { path: '/u/:username', element: withSuspense(<ProfilePage />) },
           { path: '/settings/profile', element: withSuspense(<EditProfilePage />) },
+          { path: '/communities/create', element: withSuspense(<CreateCommunityPage />) },
+          { path: '/communities/invitations', element: withSuspense(<InvitationsPage />) },
+          { path: '/communities/:slug/members', element: withSuspense(<MembersPage />) },
+          { path: '/communities/:slug/settings', element: withSuspense(<CommunitySettingsPage />) },
+          { path: '/communities/:slug/requests', element: withSuspense(<JoinRequestsPage />) },
         ],
       },
     ],

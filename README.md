@@ -15,7 +15,7 @@ API, UI, validation, error handling and tests — before the next one starts.
 | 2   | Authentication      | Done           |
 | 3   | User profiles       | Done           |
 | 4   | Friend system       | Done           |
-| 5   | Communities         | Planned        |
+| 5   | Communities         | Done           |
 | 6   | Posts / feed        | Planned        |
 | 7   | Notifications       | Planned        |
 | 8   | Real-time chat      | Planned        |
@@ -48,7 +48,7 @@ like/
 │   └── src/
 │       ├── app/            Store and router
 │       ├── components/     atoms → molecules → organisms
-│       ├── features/       auth, profile, connections, theme, ui
+│       ├── features/       auth, profile, connections, communities, theme, ui
 │       ├── layouts/        AuthLayout, AppLayout
 │       ├── pages/          Dashboard, error pages
 │       ├── routes/         Route guards
@@ -126,11 +126,26 @@ Authenticated routes under `/api/v1`:
 Client pages: `/people`, `/requests`, `/connections`. Connection controls also sit on
 public profiles.
 
+## Communities
+
+- `POST /communities` — create (caller becomes owner)
+- `GET /communities` — discovery (optional auth; private groups only if you belong)
+- `GET|PUT|DELETE /communities/:slug`
+- `POST /communities/:slug/join` and `/leave`
+- `GET /communities/:slug/members` · `DELETE /communities/:slug/members/:userId`
+- `POST|DELETE /communities/:slug/moderators/:userId`
+- `POST /communities/:slug/transfer-ownership`
+- `GET /communities/:slug/join-requests` · approve / reject / cancel
+- `POST /communities/:slug/invitations` · `GET /communities/invitations` · accept / reject
+
+Client: `/communities`, `/communities/create`, `/communities/:slug`, members, settings,
+requests, invitations.
+
 ## Tests
 
 ```
-server   121 passing   auth + profiles + connections (requests, blocks, discovery, mutuals)
-client   51 passing    components, auth, profile, connection button and request actions
+server   143 passing   auth + profiles + connections + communities
+client   81 passing    components, auth, profile, connections, communities
 ```
 
 The API suite runs against `mongodb-memory-server` and a mocked mailer, so it needs no

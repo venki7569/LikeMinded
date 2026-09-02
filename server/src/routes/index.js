@@ -4,6 +4,7 @@ import authRoutes from './auth.routes.js';
 import userRoutes from './users.routes.js';
 import connectionRoutes from './connections.routes.js';
 import peopleRoutes from './people.routes.js';
+import communityRoutes from './communities.routes.js';
 import { sendSuccess } from '../utils/apiResponse.js';
 
 const router = Router();
@@ -34,5 +35,6 @@ router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/connections', connectionRoutes);
 router.use('/people', peopleRoutes);
+router.use('/communities', communityRoutes);
 
 export default router;

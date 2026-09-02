@@ -163,6 +163,60 @@ cancelled / removed / blocked / unblocked) are emitted on an in-process
 Client routes: `/people`, `/requests`, `/connections`, plus `ConnectionButton` on
 `/u/:username`.
 
+## Communities
+
+Membership is a dedicated collection so a popular group cannot grow an unbounded
+`members[]` on the community document. `User.communities` is left unused for the same
+reason.
+
+```mermaid
+flowchart TD
+  C[Community] --> M[CommunityMembership]
+  C --> JR[CommunityJoinRequest]
+  C --> I[CommunityInvitation]
+  M --> U[User]
+  subgraph roles
+    O[owner]
+    MD[moderator]
+    MB[member]
+  end
+  O --> MD
+  MD --> MB
+```
+
+Roles are always read from `CommunityMembership`, never from the client. Permissions
+live in `communityPermissions.js`:
+
+| Action | Owner | Moderator | Member | Stranger |
+| ------ | ----- | --------- | ------ | -------- |
+| View public | yes | yes | yes | yes |
+| View private content / members | yes | yes | yes | no |
+| Edit profile fields | yes | yes | no | no |
+| Change privacy / delete / transfer / manage mods | yes | no | no | no |
+| Invite / approve join requests / remove members | yes | yes* | no | no |
+
+\* Moderators can remove regular members only, never owners or other moderators.
+
+**Lifecycle**
+
+1. Create — community row + owner membership in one transaction (or sequential fallback on standalone Mongo).
+2. Public join — membership + `memberCount $inc`.
+3. Private join — pending `CommunityJoinRequest`; approve creates membership.
+4. Invitation — pending `CommunityInvitation`; accept creates membership even if the group is private.
+5. Leave / remove — delete membership + decrement count. Owner must transfer first.
+6. Delete — drop memberships, requests and invitations with the community.
+
+Slug is generated from the name at create time and **never rewritten**, so links stay
+stable. Discovery is Mongo filtering (`q`, category, interests, sort); Phase 9 can add
+a `matchScore` on the same card shape.
+
+Domain events such as `community.member_joined` and `community.ownership_transferred`
+are emitted in-process for Phase 7.
+
+Client: `/communities` (public), `/communities/create`, `/communities/:slug`,
+`/communities/:slug/members`, `/communities/:slug/settings`,
+`/communities/:slug/requests`, `/communities/invitations`.
+
 ## Testing strategy
 
 | Scope       | Tool                                    | What it proves                         |

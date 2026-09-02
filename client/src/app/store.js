@@ -5,6 +5,8 @@ import toastReducer from '@/features/ui/toastSlice';
 import profileReducer from '@/features/profile/profileSlice';
 import connectionsReducer from '@/features/connections/connectionsSlice';
 
+import communitiesReducer from '@/features/communities/communitiesSlice';
+
 export function createStore(preloadedState) {
   return configureStore({
     reducer: {
@@ -13,6 +15,7 @@ export function createStore(preloadedState) {
       toasts: toastReducer,
       profile: profileReducer,
       connections: connectionsReducer,
+      communities: communitiesReducer,
     },
     preloadedState,
     devTools: import.meta.env.MODE !== 'production',

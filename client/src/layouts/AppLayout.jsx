@@ -66,32 +66,38 @@ export function AppLayout() {
           </nav>
 
           <div className="ml-auto flex items-center gap-2">
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-            >
-              <HiOutlineBell className="h-5 w-5" />
-            </button>
-
             <ThemeToggle />
 
-            <Link
-              to={user?.username ? `/u/${user.username}` : '/settings/profile'}
-              aria-label="Your profile"
-              className="rounded-full"
-            >
-              <Avatar name={user?.name} src={user?.avatar?.url} size="sm" className="ring-2" />
-            </Link>
-
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleLogout}
-              leftIcon={<HiOutlineArrowRightOnRectangle className="h-5 w-5" />}
-            >
-              <span className="hidden sm:inline">Sign out</span>
-            </Button>
+            {user ? (
+              <>
+                <button
+                  type="button"
+                  aria-label="Notifications"
+                  className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                >
+                  <HiOutlineBell className="h-5 w-5" />
+                </button>
+                <Link
+                  to={user.username ? `/u/${user.username}` : '/settings/profile'}
+                  aria-label="Your profile"
+                  className="rounded-full"
+                >
+                  <Avatar name={user.name} src={user.avatar?.url} size="sm" className="ring-2" />
+                </Link>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  leftIcon={<HiOutlineArrowRightOnRectangle className="h-5 w-5" />}
+                >
+                  <span className="hidden sm:inline">Sign out</span>
+                </Button>
+              </>
+            ) : (
+              <Link to="/login">
+                <Button size="sm">Sign in</Button>
+              </Link>
+            )}
           </div>
         </div>
       </header>

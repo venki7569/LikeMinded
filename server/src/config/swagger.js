@@ -58,6 +58,7 @@ const definition = {
     { name: 'Profiles', description: 'Public and owner-facing user profiles' },
     { name: 'Connections', description: 'Friend requests, accepted connections, and blocking' },
     { name: 'People', description: 'User discovery (Mongo filters; AI ranking arrives in Phase 9)' },
+    { name: 'Communities', description: 'Community discovery, membership, join requests and invitations' },
   ],
 };
 

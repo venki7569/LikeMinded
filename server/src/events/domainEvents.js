@@ -15,6 +15,25 @@ export const CONNECTION_EVENTS = Object.freeze({
   USER_UNBLOCKED: 'user_unblocked',
 });
 
+export const COMMUNITY_EVENTS = Object.freeze({
+  CREATED: 'community.created',
+  UPDATED: 'community.updated',
+  DELETED: 'community.deleted',
+  MEMBER_JOINED: 'community.member_joined',
+  MEMBER_LEFT: 'community.member_left',
+  MEMBER_REMOVED: 'community.member_removed',
+  JOIN_REQUEST_CREATED: 'community.join_request_created',
+  JOIN_REQUEST_APPROVED: 'community.join_request_approved',
+  JOIN_REQUEST_REJECTED: 'community.join_request_rejected',
+  JOIN_REQUEST_CANCELLED: 'community.join_request_cancelled',
+  MODERATOR_PROMOTED: 'community.moderator_promoted',
+  MODERATOR_DEMOTED: 'community.moderator_demoted',
+  OWNERSHIP_TRANSFERRED: 'community.ownership_transferred',
+  INVITATION_CREATED: 'community.invitation_created',
+  INVITATION_ACCEPTED: 'community.invitation_accepted',
+  INVITATION_REJECTED: 'community.invitation_rejected',
+});
+
 export const domainEvents = new EventEmitter();
 domainEvents.setMaxListeners(20);
 

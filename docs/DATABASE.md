@@ -11,8 +11,13 @@ erDiagram
     USER ||--o{ CONNECTION_REQUEST : "sends"
     USER ||--o{ CONNECTION : "has"
     USER ||--o{ BLOCK : "blocks"
+    USER ||--o{ COMMUNITY_MEMBERSHIP : "joins"
+    USER ||--o{ COMMUNITY_JOIN_REQUEST : "applies"
+    USER ||--o{ COMMUNITY_INVITATION : "receives"
     USER }o--o{ USER : "follows"
-    USER }o--o{ COMMUNITY : "member of"
+    COMMUNITY ||--o{ COMMUNITY_MEMBERSHIP : "has"
+    COMMUNITY ||--o{ COMMUNITY_JOIN_REQUEST : "receives"
+    COMMUNITY ||--o{ COMMUNITY_INVITATION : "sends"
     USER ||--o{ POST : "authors"
     USER ||--o{ COMMENT : "writes"
     USER ||--o{ MESSAGE : "sends"
@@ -88,6 +93,47 @@ erDiagram
         ObjectId blocked FK
         date createdAt
     }
+
+    COMMUNITY {
+        ObjectId _id
+        string name
+        string slug UK
+        string description
+        string category
+        string[] interests
+        object avatar
+        object coverImage
+        ObjectId owner FK
+        string privacy
+        int memberCount
+        date createdAt
+    }
+
+    COMMUNITY_MEMBERSHIP {
+        ObjectId _id
+        ObjectId community FK
+        ObjectId user FK
+        string role
+        date joinedAt
+    }
+
+    COMMUNITY_JOIN_REQUEST {
+        ObjectId _id
+        ObjectId community FK
+        ObjectId user FK
+        string status
+        ObjectId reviewedBy FK
+        date reviewedAt
+    }
+
+    COMMUNITY_INVITATION {
+        ObjectId _id
+        ObjectId community FK
+        ObjectId inviter FK
+        ObjectId invitee FK
+        string status
+        date respondedAt
+    }
 ```
 
 ## `users` — implemented
@@ -112,7 +158,7 @@ keeping it embedded avoids a join on the hot path.
 | `socials`                | Subdoc     | `github`, `linkedin`, `website`                    |
 | `location`               | Subdoc     | `city`, `country`                                  |
 | `followers`, `following` | [ObjectId] | Self-references                                    |
-| `communities`            | [ObjectId] | Ref `Community`                                    |
+| `communities`            | [ObjectId] | Unused leftover; membership lives in `communitymemberships` |
 | `isEmailVerified`        | Boolean    | Gates verified-only features                       |
 | `isActive`, `isBanned`   | Boolean    | Deactivation and moderation                        |
 | `passwordChangedAt`      | Date       | Invalidates older access tokens                    |
@@ -226,11 +272,73 @@ page), not O(users). Name/username discovery uses escaped case-insensitive regex
 which cannot use the text index for a leading-wildcard match; that is acceptable at
 current scale. Phase 9 replaces ranking, not this filter path.
 
+## `communities` — implemented
+
+Community metadata only. Members live in `communitymemberships`.
+
+| Field         | Type     | Notes |
+| ------------- | -------- | ----- |
+| `name`        | String   | ≤ 80 chars |
+| `slug`        | String   | Unique, lowercase, URL-safe; stable after create |
+| `description` | String   | ≤ 2000 chars, HTML stripped |
+| `category`    | Enum     | technology, science, arts, career, education, health, sports, gaming, music, other |
+| `interests`   | [String] | Lowercased, capped at 20 |
+| `avatar`, `coverImage` | Subdoc | `{ url, publicId }` — http(s) URL today |
+| `owner`       | ObjectId | Ref `User`; must match the owner membership |
+| `privacy`     | Enum     | `public` \| `private` |
+| `memberCount` | Number   | Maintained with `$inc`; unique membership index prevents doubles |
+
+**Indexes:** unique `{ slug }`, `{ owner }`, `{ category, createdAt }`, `{ interests }`, `{ privacy, createdAt }`, `{ createdAt }`, text on name/description/slug/category.
+
+## `communitymemberships` — implemented
+
+One row per user per community. Unique `{ community, user }`.
+
+| Field       | Type     | Notes |
+| ----------- | -------- | ----- |
+| `community` | ObjectId | Ref `Community` |
+| `user`      | ObjectId | Ref `User` |
+| `role`      | Enum     | `owner` \| `moderator` \| `member` |
+| `joinedAt`  | Date     | |
+
+**Indexes:** unique `{ community, user }`, `{ community, role }`, `{ user, createdAt }`, `{ community, joinedAt }`.
+
+## `communityjoinrequests` — implemented
+
+Private-community applications. Unique pending `{ community, user }`.
+
+| Field        | Type     | Notes |
+| ------------ | -------- | ----- |
+| `community`  | ObjectId | |
+| `user`       | ObjectId | Applicant |
+| `status`     | Enum     | `pending` \| `approved` \| `rejected` \| `cancelled` |
+| `reviewedBy` | ObjectId | |
+| `reviewedAt` | Date     | |
+
+**Indexes:** unique pending `{ community, user }`, `{ community, status, createdAt }`, `{ user, status, createdAt }`.
+
+## `communityinvitations` — implemented
+
+Staff-issued invites. Unique pending `{ community, invitee }`.
+
+| Field       | Type     | Notes |
+| ----------- | -------- | ----- |
+| `community` | ObjectId | |
+| `inviter`   | ObjectId | Owner or moderator |
+| `invitee`   | ObjectId | |
+| `status`    | Enum     | `pending` \| `accepted` \| `rejected` \| `cancelled` |
+| `respondedAt` | Date   | |
+
+**Indexes:** unique pending `{ community, invitee }`, `{ invitee, status, createdAt }`, `{ community, status, createdAt }`.
+
+Transactions wrap create / join / approve / leave / transfer / delete when the
+deployment is a replica set. Local `mongodb-memory-server` is standalone, so those
+paths fall back to sequential writes plus unique indexes.
+
 ## Planned collections
 
 | Collection        | Module | Key fields                                                                  |
 | ----------------- | ------ | --------------------------------------------------------------------------- |
-| `communities`     | 5      | `name`, `slug` (unique), `description`, `banner`, `owner`, `moderators[]`, `members[]`, `tags[]`, `visibility` |
 | `posts`           | 6      | `author`, `community`, `type` (text/image/video/poll), `content`, `media[]`, `poll`, `likes[]`, `savedBy[]`, `commentCount`, `sentiment` |
 | `comments`        | 6      | `post`, `author`, `parent` (self-ref for replies), `content`, `likes[]`, `toxicityScore` |
 | `messages`        | 8      | `conversation`, `sender`, `body`, `attachments[]`, `readBy[]`, `deliveredAt` |
