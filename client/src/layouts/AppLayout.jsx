@@ -4,6 +4,8 @@ import {
   HiOutlineArrowRightOnRectangle,
   HiOutlineBell,
   HiOutlineHome,
+  HiOutlineInbox,
+  HiOutlineLink,
   HiOutlineUserGroup,
   HiOutlineUsers,
 } from 'react-icons/hi2';
@@ -18,6 +20,8 @@ import { cn } from '@/utils/cn';
 const NAV_ITEMS = [
   { to: '/', label: 'Feed', icon: HiOutlineHome },
   { to: '/people', label: 'People', icon: HiOutlineUsers },
+  { to: '/requests', label: 'Requests', icon: HiOutlineInbox },
+  { to: '/connections', label: 'Connections', icon: HiOutlineLink },
   { to: '/communities', label: 'Communities', icon: HiOutlineUserGroup },
 ];
 
@@ -40,7 +44,7 @@ export function AppLayout() {
             <Logo />
           </Link>
 
-          <nav aria-label="Primary" className="ml-4 hidden items-center gap-1 sm:flex">
+          <nav aria-label="Primary" className="ml-2 flex items-center gap-1 overflow-x-auto sm:ml-4">
             {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
               <NavLink
                 key={to}

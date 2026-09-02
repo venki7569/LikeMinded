@@ -2,6 +2,8 @@ import { Router } from 'express';
 import mongoose from 'mongoose';
 import authRoutes from './auth.routes.js';
 import userRoutes from './users.routes.js';
+import connectionRoutes from './connections.routes.js';
+import peopleRoutes from './people.routes.js';
 import { sendSuccess } from '../utils/apiResponse.js';
 
 const router = Router();
@@ -30,5 +32,7 @@ router.get('/health', (_req, res) =>
 
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
+router.use('/connections', connectionRoutes);
+router.use('/people', peopleRoutes);
 
 export default router;

@@ -5,6 +5,7 @@ import User, {
   USER_ROLES,
 } from '../models/user.model.js';
 import ApiError from '../utils/ApiError.js';
+import { areConnected, targetBlockedViewer } from './connection.service.js';
 import {
   buildEmbeddingSource,
   scoreProfileCompleteness,
@@ -145,11 +146,18 @@ export async function getProfileByUsername(username, viewer) {
   );
   if (!user) throw ApiError.notFound('User not found');
 
-  if (!canViewProfile(user, viewer)) {
-    throw ApiError.forbidden('This profile is private');
+  if (viewer && (await targetBlockedViewer(user.id, viewer.id))) {
+    throw ApiError.notFound('User not found');
   }
 
   const isOwner = Boolean(viewer && (viewer.id === user.id || viewer._id?.equals?.(user._id)));
+  const connected =
+    Boolean(viewer) && !isOwner && (await areConnected(viewer.id, user.id));
+
+  if (!canViewProfile(user, viewer) && !connected) {
+    throw ApiError.forbidden('This profile is private');
+  }
+
   return toProfileDto(user, { isOwner });
 }
 

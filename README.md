@@ -14,7 +14,7 @@ API, UI, validation, error handling and tests — before the next one starts.
 | 1   | Project setup       | Done           |
 | 2   | Authentication      | Done           |
 | 3   | User profiles       | Done           |
-| 4   | Friend system       | Planned        |
+| 4   | Friend system       | Done           |
 | 5   | Communities         | Planned        |
 | 6   | Posts / feed        | Planned        |
 | 7   | Notifications       | Planned        |
@@ -48,7 +48,7 @@ like/
 │   └── src/
 │       ├── app/            Store and router
 │       ├── components/     atoms → molecules → organisms
-│       ├── features/       auth, theme, ui (slice + api + pages per feature)
+│       ├── features/       auth, profile, connections, theme, ui
 │       ├── layouts/        AuthLayout, AppLayout
 │       ├── pages/          Dashboard, error pages
 │       ├── routes/         Route guards
@@ -110,11 +110,27 @@ instead of sending them — copy the link from the console to complete those flo
 | `npm --prefix client test`          | Component and store tests            |
 | `npm test`                          | Both test suites                     |
 
+## Friend system
+
+Authenticated routes under `/api/v1`:
+
+- `POST /connections/requests` — send (or accept a reciprocal pending request)
+- `GET /connections/requests/incoming` and `/outgoing` — paginated
+- `POST /connections/requests/:id/accept|reject|cancel`
+- `GET /connections` — accepted connections
+- `DELETE /connections/:userId` — remove
+- `GET /connections/status/:userId` — `none` | `outgoing_pending` | `incoming_pending` | `connected` | `blocked`
+- `POST /connections/blocks`, `GET /connections/blocks`, `DELETE /connections/blocks/:userId`
+- `GET /people` — discovery (search + filters, no AI ranking yet)
+
+Client pages: `/people`, `/requests`, `/connections`. Connection controls also sit on
+public profiles.
+
 ## Tests
 
 ```
-server   93 passing   auth + profiles (visibility, completeness, username checks)
-client   43 passing   components, auth, profile page, completeness bar, tags
+server   121 passing   auth + profiles + connections (requests, blocks, discovery, mutuals)
+client   51 passing    components, auth, profile, connection button and request actions
 ```
 
 The API suite runs against `mongodb-memory-server` and a mocked mailer, so it needs no

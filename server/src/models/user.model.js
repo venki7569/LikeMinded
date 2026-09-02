@@ -272,6 +272,8 @@ userSchema.index({ interests: 1 });
 userSchema.index({ name: 'text', username: 'text', bio: 'text' });
 
 userSchema.index({ occupation: 1 });
+userSchema.index({ 'location.city': 1 });
+userSchema.index({ 'location.country': 1 });
 userSchema.index({ profileVisibility: 1, username: 1 });
 
 userSchema.virtual('followerCount').get(function followerCount() {

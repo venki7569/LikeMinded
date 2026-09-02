@@ -126,6 +126,43 @@ nothing is sent to the AI service yet.
 
 Client routes: `/u/:username` (view) and `/settings/profile` (eight-section editor).
 
+## Connections
+
+Friend graphs live in three collections, not on `User`. Unbounded `followers` /
+`following` arrays stay unused so a popular account cannot blow up the user document.
+
+| Collection            | Shape | Why |
+| --------------------- | ----- | --- |
+| `connectionrequests`  | Directed, status `pending\|accepted\|rejected\|cancelled` | History is kept; only **pending** is unique per pair |
+| `connections`         | Undirected `userLow`/`userHigh` | Accepted edges. Remove/block sets `endedAt` instead of deleting |
+| `blocks`              | Directed `blocker` → `blocked` | Unique pair; either direction forbids new requests |
+
+`pairKey` is the two ObjectIds sorted and joined, so A→B and B→A collide on the same
+unique partial index. Two users clicking Connect at once cannot create two pending
+rows; the loser of the unique-index race accepts the existing request if it was sent
+to them.
+
+Relationship status returned to the client is one of `none`, `outgoing_pending`,
+`incoming_pending`, `connected`, `blocked`. `blocked` is only shown when **the caller**
+blocked the other person. If they blocked the caller, status is `none` and connect
+attempts return 403, so the block is not leaked.
+
+Private profiles remain 403 to strangers. An accepted connection is allowed to view
+them. If the target blocked the viewer, `GET /users/:username` returns 404.
+
+Discovery (`GET /people`) is Mongo filtering only. Each item is
+`{ user, relationshipStatus, requestId, mutualConnectionCount, sharedInterestCount }`
+so Phase 9 can add `matchScore` without changing the envelope. Mutual counts are the
+intersection of two friend-id sets, loaded in two queries for the page rather than
+per card.
+
+Domain events (`connection_request_received`, `_accepted`, `_rejected`, plus
+cancelled / removed / blocked / unblocked) are emitted on an in-process
+`EventEmitter`. Phase 7 will subscribe; nothing is pushed to the browser yet.
+
+Client routes: `/people`, `/requests`, `/connections`, plus `ConnectionButton` on
+`/u/:username`.
+
 ## Testing strategy
 
 | Scope       | Tool                                    | What it proves                         |

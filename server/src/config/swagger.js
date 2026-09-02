@@ -56,6 +56,8 @@ const definition = {
     { name: 'System', description: 'Health and diagnostics' },
     { name: 'Auth', description: 'Registration, sessions and password management' },
     { name: 'Profiles', description: 'Public and owner-facing user profiles' },
+    { name: 'Connections', description: 'Friend requests, accepted connections, and blocking' },
+    { name: 'People', description: 'User discovery (Mongo filters; AI ranking arrives in Phase 9)' },
   ],
 };
 

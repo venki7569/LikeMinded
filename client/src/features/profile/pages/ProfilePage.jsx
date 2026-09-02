@@ -16,6 +16,9 @@ import { Skeleton, SkeletonText } from '@/components/atoms/Skeleton';
 import CompletenessBar from '@/components/molecules/CompletenessBar';
 import EmptyState from '@/components/molecules/EmptyState';
 import { selectCurrentUser } from '@/features/auth/authSlice';
+import ConnectionButton from '@/features/connections/components/ConnectionButton';
+import MutualConnections from '@/features/connections/components/MutualConnections';
+import { selectRelationship } from '@/features/connections/connectionsSlice';
 import {
   Chip,
   MetaRow,
@@ -59,6 +62,7 @@ export function ProfilePage() {
   const status = useSelector(selectProfileStatus);
   const error = useSelector(selectProfileError);
   const me = useSelector(selectCurrentUser);
+  const relationship = useSelector(selectRelationship(profile?.id));
 
   useEffect(() => {
     dispatch(fetchProfileByUsername(username));
@@ -108,7 +112,7 @@ export function ProfilePage() {
                 <p className="text-slate-500 dark:text-slate-400">@{profile.username}</p>
               </div>
             </div>
-            {isOwner && (
+            {isOwner ? (
               <Link to="/settings/profile">
                 <Button
                   variant="secondary"
@@ -117,6 +121,13 @@ export function ProfilePage() {
                   Edit profile
                 </Button>
               </Link>
+            ) : (
+              profile.id && (
+                <div className="space-y-2">
+                  <ConnectionButton userId={profile.id} showStatus />
+                  <MutualConnections count={relationship?.mutualConnectionCount ?? 0} />
+                </div>
+              )
             )}
           </div>
 

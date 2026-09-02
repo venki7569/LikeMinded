@@ -8,13 +8,15 @@ implemented — they arrive with their module.
 ```mermaid
 erDiagram
     USER ||--o{ TOKEN : "issues"
+    USER ||--o{ CONNECTION_REQUEST : "sends"
+    USER ||--o{ CONNECTION : "has"
+    USER ||--o{ BLOCK : "blocks"
     USER }o--o{ USER : "follows"
     USER }o--o{ COMMUNITY : "member of"
     USER ||--o{ POST : "authors"
     USER ||--o{ COMMENT : "writes"
     USER ||--o{ MESSAGE : "sends"
     USER ||--o{ NOTIFICATION : "receives"
-    USER ||--o{ FRIEND_REQUEST : "sends"
     USER ||--o{ EVENT : "hosts"
     COMMUNITY ||--o{ POST : "contains"
     COMMUNITY ||--o{ EVENT : "schedules"
@@ -59,6 +61,33 @@ erDiagram
         string userAgent
         string ipAddress
     }
+
+    CONNECTION_REQUEST {
+        ObjectId _id
+        ObjectId sender FK
+        ObjectId receiver FK
+        string status
+        string pairKey
+        date respondedAt
+        date createdAt
+    }
+
+    CONNECTION {
+        ObjectId _id
+        ObjectId userLow FK
+        ObjectId userHigh FK
+        string pairKey
+        ObjectId request FK
+        date endedAt
+        string endedReason
+    }
+
+    BLOCK {
+        ObjectId _id
+        ObjectId blocker FK
+        ObjectId blocked FK
+        date createdAt
+    }
 ```
 
 ## `users` — implemented
@@ -99,6 +128,7 @@ keeping it embedded avoids a join on the hot path.
 | `{ skills: 1 }`, `{ interests: 1 }`  | Multikey, used by matching and discovery |
 | `{ name, username, bio }` text       | Keyword search before semantic search    |
 | `{ occupation: 1 }`                  | Discovery by role                        |
+| `{ location.city: 1 }`, `{ location.country: 1 }` | Discovery by place              |
 | `{ profileVisibility: 1, username: 1 }` | Public directory lookups              |
 
 Usernames in `RESERVED_USERNAMES` (`me`, `admin`, `settings`, …) are rejected at both
@@ -107,7 +137,8 @@ registration and rename so they cannot collide with `/users/me/*` routes.
 The profile API never returns `password`. Public views also omit `email` and `role`.
 Owner views add `completeness` and `embeddingSource` (bio + skills + interests +
 occupation + education + experience + projects, joined) so the AI service can embed
-without re-deriving field lists.
+without re-deriving field lists. Connected users may view a private profile; a user
+who was blocked by the owner gets 404 rather than a private-profile 403.
 
 ## `tokens` — implemented
 
@@ -133,6 +164,68 @@ One collection for all three single-use or revocable token types, distinguished 
 | `{ user: 1, type: 1 }`                            | Revoke all sessions of a user  |
 | `{ expiresAt: 1 }` with `expireAfterSeconds: 0`   | Automatic cleanup              |
 
+## `connectionrequests` — implemented
+
+Directed requests. Rows are never deleted: accept/reject/cancel only change `status`.
+
+| Field         | Type     | Notes |
+| ------------- | -------- | ----- |
+| `sender`      | ObjectId | Ref `User` |
+| `receiver`    | ObjectId | Ref `User`; cannot equal `sender` |
+| `status`      | Enum     | `pending` \| `accepted` \| `rejected` \| `cancelled` |
+| `pairKey`     | String   | Sorted `idA:idB` so direction does not matter |
+| `respondedAt` | Date     | Set when the pending row is resolved |
+
+**Indexes**
+
+| Index | Purpose |
+| ----- | ------- |
+| `{ receiver: 1, status: 1, createdAt: -1 }` | Incoming inbox |
+| `{ sender: 1, status: 1, createdAt: -1 }` | Outgoing list |
+| `{ pairKey: 1, status: 1 }` | History for a pair |
+| unique `{ pairKey: 1 }` where `status: pending` | At most one live request per pair |
+
+## `connections` — implemented
+
+Undirected accepted edge. `userLow` / `userHigh` are the two ids in lexicographic order.
+
+| Field         | Type     | Notes |
+| ------------- | -------- | ----- |
+| `userLow`, `userHigh` | ObjectId | Ordered pair |
+| `pairKey`     | String   | Same as requests |
+| `request`     | ObjectId | The request that created this edge |
+| `endedAt`     | Date     | `null` while active |
+| `endedReason` | Enum     | `removed` \| `blocked` |
+
+**Indexes**
+
+| Index | Purpose |
+| ----- | ------- |
+| `{ userLow: 1, endedAt: 1 }`, `{ userHigh: 1, endedAt: 1 }` | Friend lists |
+| unique `{ pairKey: 1 }` where `endedAt: null` | One live edge per pair |
+
+Reconnect after remove creates a **new** row so history is preserved.
+
+## `blocks` — implemented
+
+Directed hide. Unique `{ blocker, blocked }`. Blocking cancels pending requests and
+soft-ends an active connection (`endedReason=blocked`). Historical request/connection
+rows stay. Either direction of a block forbids new requests and hides both users from
+each other's discovery results. The blocked user cannot fetch the blocker's public
+profile (404). Only the blocker can unblock.
+
+**Indexes:** unique `{ blocker: 1, blocked: 1 }`, `{ blocked: 1 }`, `{ blocker: 1, createdAt: -1 }`.
+
+### Query-plan notes
+
+Incoming/outgoing inboxes are covered by the `(user, status, createdAt)` indexes and
+are paginated. Friend lists use the `endedAt: null` partial unique plus the
+`userLow`/`userHigh` indexes. Mutual counts load the viewer's friend ids, then all
+edges touching the page of target ids, and intersect in memory — O(friends of the
+page), not O(users). Name/username discovery uses escaped case-insensitive regex,
+which cannot use the text index for a leading-wildcard match; that is acceptable at
+current scale. Phase 9 replaces ranking, not this filter path.
+
 ## Planned collections
 
 | Collection        | Module | Key fields                                                                  |
@@ -143,7 +236,6 @@ One collection for all three single-use or revocable token types, distinguished 
 | `messages`        | 8      | `conversation`, `sender`, `body`, `attachments[]`, `readBy[]`, `deliveredAt` |
 | `conversations`   | 8      | `participants[]`, `isGroup`, `name`, `lastMessage`, `admins[]`               |
 | `notifications`   | 7      | `recipient`, `actor`, `type`, `entity`, `entityModel`, `isRead`              |
-| `friendRequests`  | 4      | `from`, `to`, `status`, compound unique `{ from, to }`                       |
 | `events`          | 9      | `host`, `community`, `title`, `startsAt`, `location`, `poster`, `attendees[]`, `rsvps[]` |
 | `reports`         | 14     | `reporter`, `targetType`, `target`, `reason`, `status`, `resolvedBy`         |
 | `adminLogs`       | 14     | `admin`, `action`, `targetType`, `target`, `metadata`, `createdAt`           |
