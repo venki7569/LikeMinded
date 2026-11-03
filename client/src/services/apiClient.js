@@ -90,15 +90,26 @@ apiClient.interceptors.response.use(
 /** Normalizes an axios failure into a message plus per-field errors. */
 export function toApiError(error) {
   const payload = error?.response?.data;
-  return {
-    message: payload?.message ?? error?.message ?? 'Something went wrong',
-    status: error?.response?.status ?? 0,
-    fieldErrors: (payload?.errors ?? []).reduce((accumulator, issue) => {
+  let fieldErrors = {};
+
+  if (Array.isArray(payload?.errors)) {
+    fieldErrors = payload.errors.reduce((accumulator, issue) => {
       // Server paths look like `body.email`; forms only know `email`.
       const field = String(issue.field ?? '').split('.').pop();
       if (field && !accumulator[field]) accumulator[field] = issue.message;
       return accumulator;
-    }, {}),
+    }, {});
+  } else if (payload?.errors && typeof payload.errors === 'object') {
+    const field = payload.errors.field;
+    if (field) {
+      fieldErrors[field] = payload.errors.message || payload.message;
+    }
+  }
+
+  return {
+    message: payload?.message ?? error?.message ?? 'Something went wrong',
+    status: error?.response?.status ?? 0,
+    fieldErrors,
   };
 }
 

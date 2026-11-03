@@ -8,21 +8,29 @@ import {
   HiOutlineLink,
   HiOutlineUserGroup,
   HiOutlineUsers,
+  HiOutlineChatBubbleLeftRight,
+  HiOutlineSparkles,
+  HiOutlineCalendarDays,
+  HiOutlineShieldCheck,
+  HiOutlineMagnifyingGlass,
 } from 'react-icons/hi2';
 import Logo from '@/components/atoms/Logo';
 import Avatar from '@/components/atoms/Avatar';
 import Button from '@/components/atoms/Button';
 import ThemeToggle from '@/components/molecules/ThemeToggle';
+import NotificationsPopover from '@/features/notifications/components/NotificationsPopover';
 import { logoutUser, selectCurrentUser } from '@/features/auth/authSlice';
 import { pushToast } from '@/features/ui/toastSlice';
 import { cn } from '@/utils/cn';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Feed', icon: HiOutlineHome },
+  { to: '/matches', label: 'AI Matches', icon: HiOutlineSparkles },
+  { to: '/messages', label: 'Messages', icon: HiOutlineChatBubbleLeftRight },
   { to: '/people', label: 'People', icon: HiOutlineUsers },
-  { to: '/requests', label: 'Requests', icon: HiOutlineInbox },
-  { to: '/connections', label: 'Connections', icon: HiOutlineLink },
   { to: '/communities', label: 'Communities', icon: HiOutlineUserGroup },
+  { to: '/events', label: 'Events', icon: HiOutlineCalendarDays },
+  { to: '/connections', label: 'Connections', icon: HiOutlineLink },
 ];
 
 export function AppLayout() {
@@ -66,17 +74,45 @@ export function AppLayout() {
           </nav>
 
           <div className="ml-auto flex items-center gap-2">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const q = e.target.elements.search?.value?.trim();
+                if (q) navigate(`/search?q=${encodeURIComponent(q)}`);
+              }}
+              className="relative hidden md:block"
+            >
+              <HiOutlineMagnifyingGlass className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+              <input
+                name="search"
+                type="search"
+                placeholder="Search..."
+                className="h-9 w-36 rounded-xl border border-slate-200 bg-slate-50 pl-9 pr-3 text-xs focus:w-56 focus:border-brand-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-800 transition-all"
+              />
+            </form>
+
+            <Link
+              to="/search"
+              aria-label="Search"
+              className="md:hidden grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              <HiOutlineMagnifyingGlass className="h-5 w-5" />
+            </Link>
+
             <ThemeToggle />
 
             {user ? (
               <>
-                <button
-                  type="button"
-                  aria-label="Notifications"
-                  className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
-                >
-                  <HiOutlineBell className="h-5 w-5" />
-                </button>
+                {user.role === 'admin' && (
+                  <Link
+                    to="/admin"
+                    title="Admin Portal"
+                    className="grid h-10 w-10 place-items-center rounded-xl border border-amber-200 bg-amber-50/50 text-amber-700 hover:bg-amber-100 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-300"
+                  >
+                    <HiOutlineShieldCheck className="h-5 w-5" />
+                  </Link>
+                )}
+                <NotificationsPopover />
                 <Link
                   to={user.username ? `/u/${user.username}` : '/settings/profile'}
                   aria-label="Your profile"

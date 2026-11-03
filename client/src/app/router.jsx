@@ -25,6 +25,12 @@ const MembersPage = lazy(() => import('@/features/communities/pages/MembersPage'
 const CommunitySettingsPage = lazy(() => import('@/features/communities/pages/CommunitySettingsPage'));
 const JoinRequestsPage = lazy(() => import('@/features/communities/pages/JoinRequestsPage'));
 const InvitationsPage = lazy(() => import('@/features/communities/pages/InvitationsPage'));
+const NotificationsPage = lazy(() => import('@/features/notifications/pages/NotificationsPage'));
+const MessagesPage = lazy(() => import('@/features/chat/pages/MessagesPage'));
+const EventsPage = lazy(() => import('@/features/events/pages/EventsPage'));
+const MatchesPage = lazy(() => import('@/features/matching/pages/MatchesPage'));
+const SearchPage = lazy(() => import('@/features/search/pages/SearchPage'));
+const AdminDashboardPage = lazy(() => import('@/features/admin/pages/AdminDashboardPage'));
 
 function RouteFallback() {
   return (
@@ -66,6 +72,7 @@ export const router = createBrowserRouter([
     children: [
       { path: '/communities', element: withSuspense(<CommunitiesPage />) },
       { path: '/communities/:slug', element: withSuspense(<CommunityDetailPage />) },
+      { path: '/search', element: withSuspense(<SearchPage />) },
     ],
   },
   {
@@ -86,6 +93,11 @@ export const router = createBrowserRouter([
           { path: '/communities/:slug/members', element: withSuspense(<MembersPage />) },
           { path: '/communities/:slug/settings', element: withSuspense(<CommunitySettingsPage />) },
           { path: '/communities/:slug/requests', element: withSuspense(<JoinRequestsPage />) },
+          { path: '/notifications', element: withSuspense(<NotificationsPage />) },
+          { path: '/messages', element: withSuspense(<MessagesPage />) },
+          { path: '/events', element: withSuspense(<EventsPage />) },
+          { path: '/matches', element: withSuspense(<MatchesPage />) },
+          { path: '/admin', element: withSuspense(<AdminDashboardPage />) },
         ],
       },
     ],

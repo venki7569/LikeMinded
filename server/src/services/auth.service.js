@@ -37,7 +37,7 @@ export async function register({ name, username, email, password }, context = {}
 
   if (existing) {
     const field = existing.email === email ? 'email' : 'username';
-    throw ApiError.conflict(`That ${field} is already taken`, { field });
+    throw ApiError.conflict(`That ${field} is already taken`, [{ field, message: `That ${field} is already taken` }]);
   }
 
   const user = await User.create({ name, username, email, password });

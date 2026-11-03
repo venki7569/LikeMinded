@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as profileController from '../controllers/profile.controller.js';
+import * as postController from '../controllers/post.controller.js';
 import { optionalAuth, requireAuth } from '../middleware/auth.middleware.js';
 import { validate } from '../middleware/validate.middleware.js';
 import {
@@ -9,6 +10,7 @@ import {
   updateProfileSchema,
   usernameParamSchema,
 } from '../validators/profile.validator.js';
+import { usernamePostsQuerySchema } from '../validators/post.validator.js';
 
 const router = Router();
 
@@ -160,6 +162,35 @@ router.get(
   optionalAuth,
   validate(usernameParamSchema),
   profileController.getByUsername
+);
+
+/**
+ * @openapi
+ * /users/{username}/posts:
+ *   get:
+ *     summary: Get posts by a user (profile feed)
+ *     description: Returns cursor-paginated posts for the given user, filtered by the viewer's relationship.
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         schema: { type: string }
+ *       - in: query
+ *         name: cursor
+ *         schema: { type: string }
+ *       - in: query
+ *         name: limit
+ *         schema: { type: integer, minimum: 1, maximum: 50, default: 20 }
+ *     responses:
+ *       200: { description: Paginated profile feed }
+ *       404: { description: User not found }
+ */
+router.get(
+  '/:username/posts',
+  optionalAuth,
+  validate(usernamePostsQuerySchema),
+  postController.getProfileFeed
 );
 
 export default router;

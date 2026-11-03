@@ -15,6 +15,17 @@ export const CONNECTION_EVENTS = Object.freeze({
   USER_UNBLOCKED: 'user_unblocked',
 });
 
+export const POST_EVENTS = Object.freeze({
+  POST_CREATED: 'post.created',
+  POST_UPDATED: 'post.updated',
+  POST_DELETED: 'post.deleted',
+  POST_LIKED: 'post.liked',
+  POST_UNLIKED: 'post.unliked',
+  COMMENT_CREATED: 'comment.created',
+  COMMENT_UPDATED: 'comment.updated',
+  COMMENT_DELETED: 'comment.deleted',
+});
+
 export const COMMUNITY_EVENTS = Object.freeze({
   CREATED: 'community.created',
   UPDATED: 'community.updated',

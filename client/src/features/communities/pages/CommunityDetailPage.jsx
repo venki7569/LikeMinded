@@ -12,6 +12,9 @@ import { selectCurrentUser } from '@/features/auth/authSlice';
 import JoinButton from '../components/JoinButton';
 import { PrivacyBadge, MemberCount } from '../components/CommunityCard';
 import { categoryLabel } from '../categories';
+import PostComposer from '@/features/posts/components/PostComposer';
+import FeedList from '@/features/posts/components/FeedList';
+import { fetchCommunityFeed, selectFeed } from '@/features/posts/postSlice';
 import {
   clearCurrentCommunity,
   fetchCommunity,
@@ -35,6 +38,7 @@ export function CommunityDetailPage() {
   const me = useSelector(selectCurrentUser);
   const { community, status, error } = useSelector(selectCurrentCommunity);
   const members = useSelector(selectCommunityMembers);
+  const feed = useSelector(selectFeed);
 
   useEffect(() => {
     dispatch(fetchCommunity(slug));
@@ -46,6 +50,12 @@ export function CommunityDetailPage() {
       dispatch(fetchMembers({ slug, limit: 6 }));
     }
   }, [dispatch, slug, community?.viewer?.isMember]);
+
+  useEffect(() => {
+    if (community && (community.privacy !== 'private' || community.viewer?.isMember)) {
+      dispatch(fetchCommunityFeed({ slug }));
+    }
+  }, [dispatch, slug, community]);
 
   if (status === 'loading' || status === 'idle') return <DetailSkeleton />;
   if (status === 'failed') {
@@ -155,6 +165,27 @@ export function CommunityDetailPage() {
             Join requests
           </Button>
         </Link>
+      )}
+
+      {(!isPrivate || isMember) && (
+        <section className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-bold">Community Feed</h2>
+            <span className="text-xs text-slate-400">Latest discussions & updates</span>
+          </div>
+          {isMember && (
+            <PostComposer
+              communityId={community.id || community._id}
+              placeholder={`Share an update or question in ${community.name}...`}
+            />
+          )}
+          <FeedList
+            posts={feed.items}
+            status={feed.status}
+            error={feed.error}
+            emptyMessage={`No posts yet in ${community.name}. Be the first to start a conversation!`}
+          />
+        </section>
       )}
 
       {isPrivate && !isMember && (

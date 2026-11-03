@@ -50,10 +50,11 @@ models_cache/
 server/uploads/
 !server/uploads/.gitkeep
 
-# Editors
+# Editors and tools
 .vscode/
 .idea/
 *.swp
+.agents/
 
 # OS
 .DS_Store

@@ -26,6 +26,8 @@ import {
   SocialLinks,
   Timeline,
 } from '@/features/profile/components/ProfileParts';
+import FeedList from '@/features/posts/components/FeedList';
+import { fetchProfileFeed, selectFeed } from '@/features/posts/postSlice';
 import {
   clearViewedProfile,
   fetchProfileByUsername,
@@ -63,9 +65,11 @@ export function ProfilePage() {
   const error = useSelector(selectProfileError);
   const me = useSelector(selectCurrentUser);
   const relationship = useSelector(selectRelationship(profile?.id));
+  const feed = useSelector(selectFeed);
 
   useEffect(() => {
     dispatch(fetchProfileByUsername(username));
+    dispatch(fetchProfileFeed({ username }));
     return () => dispatch(clearViewedProfile());
   }, [dispatch, username]);
 
@@ -123,8 +127,15 @@ export function ProfilePage() {
               </Link>
             ) : (
               profile.id && (
-                <div className="space-y-2">
-                  <ConnectionButton userId={profile.id} showStatus />
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <ConnectionButton userId={profile.id} showStatus />
+                    <Link to={`/messages?user=${profile.id}`}>
+                      <Button variant="secondary" size="sm">
+                        Message
+                      </Button>
+                    </Link>
+                  </div>
                   <MutualConnections count={relationship?.mutualConnectionCount ?? 0} />
                 </div>
               )
@@ -246,6 +257,17 @@ export function ProfilePage() {
           ))}
         </ul>
       </Section>
+
+      {/* User Posts Section */}
+      <section className="space-y-4 pt-2">
+        <h2 className="text-lg font-bold">Posts by {profile.displayName || profile.name}</h2>
+        <FeedList
+          posts={feed.items}
+          status={feed.status}
+          error={feed.error}
+          emptyMessage={`${profile.displayName || profile.name} hasn't shared any posts yet.`}
+        />
+      </section>
     </article>
   );
 }

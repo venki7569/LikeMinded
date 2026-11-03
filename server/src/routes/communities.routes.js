@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as communityController from '../controllers/community.controller.js';
+import * as postController from '../controllers/post.controller.js';
 import { optionalAuth, requireAuth } from '../middleware/auth.middleware.js';
 import { validate } from '../middleware/validate.middleware.js';
 import {
@@ -16,6 +17,7 @@ import {
   transferOwnershipSchema,
   updateCommunitySchema,
 } from '../validators/community.validator.js';
+import { communityPostsQuerySchema } from '../validators/post.validator.js';
 
 const router = Router();
 
@@ -365,6 +367,35 @@ router.post(
   requireAuth,
   validate(invitationCreateSchema),
   communityController.createInvitation
+);
+
+/**
+ * @openapi
+ * /communities/{slug}/posts:
+ *   get:
+ *     summary: Get posts in a community (community feed)
+ *     description: Returns cursor-paginated posts for the given community. Private communities require membership.
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema: { type: string }
+ *       - in: query
+ *         name: cursor
+ *         schema: { type: string }
+ *       - in: query
+ *         name: limit
+ *         schema: { type: integer, minimum: 1, maximum: 50, default: 20 }
+ *     responses:
+ *       200: { description: Paginated community feed }
+ *       404: { description: Community not found or not visible }
+ */
+router.get(
+  '/:slug/posts',
+  optionalAuth,
+  validate(communityPostsQuerySchema),
+  postController.getCommunityFeed
 );
 
 export default router;

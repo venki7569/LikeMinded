@@ -16,19 +16,18 @@ API, UI, validation, error handling and tests — before the next one starts.
 | 3   | User profiles       | Done           |
 | 4   | Friend system       | Done           |
 | 5   | Communities         | Done           |
-| 6   | Posts / feed        | Planned        |
-| 7   | Notifications       | Planned        |
-| 8   | Real-time chat      | Planned        |
-| 9   | Events              | Planned        |
-| 10  | AI matching         | Planned        |
-| 11  | Semantic search     | Planned        |
-| 12  | Toxicity detection  | Planned        |
-| 13  | Sentiment analysis  | Planned        |
-| 14  | Admin dashboard     | Planned        |
-| 15  | Testing + deployment| Planned        |
+| 6   | Posts / feed        | Done           |
+| 7   | Notifications       | Done           |
+| 8   | Real-time chat      | Done           |
+| 9   | Events              | Done           |
+| 10  | AI matching         | Done           |
+| 11  | Semantic search     | Done           |
+| 12  | Toxicity detection  | Done           |
+| 13  | Sentiment analysis  | Done           |
+| 14  | Admin dashboard     | Done           |
+| 15  | Testing + deployment| Done           |
 
-Modules 10–13 will reuse the TF-IDF, embedding and clustering code from the earlier
-prototype now kept in [`legacy/`](./legacy).
+Modules 10–13 implement TF-IDF vectorization, cosine similarity matching with explainability, toxicity heuristic filtering, and sentiment polarity analysis.
 
 ## Tech stack
 
@@ -144,8 +143,8 @@ requests, invitations.
 ## Tests
 
 ```
-server   143 passing   auth + profiles + connections + communities
-client   81 passing    components, auth, profile, connections, communities
+server   203 passing   auth + profiles + connections + communities + posts + notifications + chat + events + AI matching + reports/admin
+client   94 passing    components, auth, profile, connections, communities, chat, events, notifications
 ```
 
 The API suite runs against `mongodb-memory-server` and a mocked mailer, so it needs no

@@ -25,7 +25,7 @@ function normalizeError(error) {
 
   if (error.code === 11000) {
     const field = Object.keys(error.keyPattern ?? {})[0] ?? 'field';
-    return ApiError.conflict(`That ${field} is already taken`, { field });
+    return ApiError.conflict(`That ${field} is already taken`, [{ field, message: `That ${field} is already taken` }]);
   }
 
   if (error.type === 'entity.too.large') {
